@@ -1,0 +1,31 @@
+kayttaja->selain:
+note left of selain
+Kayttaja kirjoittaa muistiinpanon ja
+painaa talleta-nappia
+end note
+selain->palvelin: Post fullstack-exampleapp.herokuapp.com/new_note
+note left of palvelin
+selain lahettaa textimuotoisen datan palvelimelle
+end note
+palvelin->selain: status 302, redirect location: /notes
+
+note left of selain
+Selain saa uudelleenohjauspyynnön ja 
+toimii tämän mukaisesti
+end note 
+selain->palvelin: Get fullstack-exampleapp.herokuapp.com/notes
+palvelin->selain: status 200, sivun html-koodi
+selain->palvelin: Get fullstack-exampleapp.herokuapp.com/main.css
+palvelin->selain: status 200, sivun css (main.css) tiedosto
+selain->palvelin: Get fullstack-exampleapp.herokuapp.com/main.js
+palvelin->selain: status 200, sivun javascript koodi (main.js)
+note left of selain
+selain suorittaa saamansa javascript-koodin. 
+Koodissa käsky hakea palvelimelta data.json tiedosto
+end note
+selain->palvelin: Get fullstack-exampleapp.herokuapp.com/data.json
+palvelin->selain: status 200, json muotoinen data (data.json)
+note left of selain
+Kun kutsu on valmis suoritetaan functio (onreadystate),
+joka muodostaa HTML-rakenteen populoiden sen datalla.
+end note
