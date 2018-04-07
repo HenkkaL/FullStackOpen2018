@@ -1,0 +1,12 @@
+kayttaja->selain:
+note left of selain
+Kayttaja kirjoittaa muistiinpanon ja
+painaa talleta-nappia
+end note
+note left of selain
+selain lisää muistiinpanon notes listaan ja renderöi 
+listan uudestaan. Selain lahettaa json muotoisen
+datan palvelimelle
+end note
+selain->palvelin: Post fullstack-exampleapp.herokuapp.com/new_note_spa
+palvelin->selain: status 201, json muotoinen data
