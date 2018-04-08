@@ -8,11 +8,10 @@ const Otsikko = (props) => {
 }
 
 const Sisalto = (props) => {
+    const sisalto = props.osat.map((osa, index) => <Osa key={index} osa={osa} />)
     return (
         <div>
-            <Osa osa={props.osa1} />
-            <Osa osa={props.osa2} />
-            <Osa osa={props.osa3} />
+            {sisalto}
         </div>
     )
 }
@@ -24,34 +23,41 @@ const Osa = (props) => {
 }
 
 const Yhteensa = (props) => {
+    let sum = 0
+    props.osat.forEach(element => {
+        sum += element.tehtavia
+    });
     return (
-        <p>yhteensä {props.tehtavia1 + props.tehtavia2 + props.tehtavia3} tehtävää</p>
+        <p>yhteensä {sum} tehtävää</p>
     )
 }
 
 const App = () => {
     const kurssi = 'Half Stack -sovelluskehitys'
-    const osa1 = {
-        nimi: 'Reactin perusteet',
-        tehtavia: 10
-    } 
-    const osa2 = {
+    const osat = [
+        {
+            nimi: 'Reactin perusteet',
+            tehtavia: 10
+        },
+        {
         nimi: 'Tiedonvälitys propseilla',
         tehtavia: 7
-    }
-    const osa3 = {
+        },
+        {
         nimi: 'Komponenttien tila',
         tehtavia: 14
-    }
+        }
+    ]
+
 
     return (
         <div>
             <Otsikko kurssi={kurssi} />  
-            <Sisalto osa1={osa1} osa2={osa2} osa3={osa3} />
-            <Yhteensa tehtavia1={osa1.tehtavia} tehtavia2={osa2.tehtavia} tehtavia3={osa3.tehtavia} />
+            <Sisalto osat={osat} />
+            <Yhteensa osat={osat} />
         </div>
     )
-}
+} 
 
 ReactDOM.render(
     <App />,
