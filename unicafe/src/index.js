@@ -19,7 +19,7 @@ const Statistic = ({stat, text, text2 }) => {
     )
 }
 const Statistics = ({sum, all, positive, neutral, negative}) => {
-    if (all == 0)
+    if (all === 0)
     return (
         <div>
             <Header header="statistiikka"/>
@@ -50,21 +50,12 @@ class App extends React.Component {
         }
     }
     
-    kasvataHyva = () => {
-        this.setState({ hyva: this.state.hyva + 1 })
-        this.setState({ kaikki: this.state.kaikki + 1})
-        this.setState({ summa: this.state.summa + 1})
-    }
-
-    kasvataNeutraali = () => {
-        this.setState({ neutraali: this.state.neutraali + 1 })
-        this.setState({ kaikki: this.state.kaikki + 1})
-    }
-
-    kasvataHuono = () => {
-        this.setState({ huono: this.state.huono + 1 })
-        this.setState({ kaikki: this.state.kaikki + 1})
-        this.setState({ summa: this.state.summa - 1})
+    lisaaTulos = (nappi, arvo) => {
+        return () => {
+            this.setState({ [nappi]: this.state[nappi] + 1 })
+            this.setState({ kaikki: this.state.kaikki + 1})
+            this.setState({ summa: this.state.summa + arvo})
+        }
     }
 
     render() {
@@ -72,9 +63,9 @@ class App extends React.Component {
             <div>
                 <div>
                     <Header header="anna palautetta"/>
-                    <Button handleClick={ this.kasvataHyva } text="Hyvä"/>
-                    <Button handleClick={ this.kasvataNeutraali } text="Neutraali"/>
-                    <Button handleClick={ this.kasvataHuono } text="Huono"/>           
+                    <Button handleClick={ this.lisaaTulos("hyva", 1) } text="Hyvä"/>
+                    <Button handleClick={ this.lisaaTulos("neutraali", 0) } text="Neutraali"/>
+                    <Button handleClick={ this.lisaaTulos("huono", -1) } text="Huono"/>           
                 </div>
                     <Statistics positive={this.state.hyva } neutral={this.state.neutraali }
                     negative={this.state.huono } sum={ this.state.summa } all={ this.state.kaikki }
