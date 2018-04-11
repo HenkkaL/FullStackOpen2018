@@ -15,18 +15,25 @@ const Header = ({ header }) => {
 
 const Statistic = ({stat, text, text2 }) => {
     return (
-        <p>{text}: {stat}{text2}</p>
+        <p>{text}{stat}{text2}</p>
     )
 }
 const Statistics = ({sum, all, positive, neutral, negative}) => {
+    if (all == 0)
     return (
         <div>
             <Header header="statistiikka"/>
-            <Statistic text="Hyvä" stat={positive}/>
-            <Statistic text="Neutraali" stat={neutral}/>
-            <Statistic text="Huono" stat={negative}/>
-            <Statistic text="Keskiarvo" stat={sum / all}/>
-            <Statistic text="Positiivisia" stat={positive / all} text2="%"/>
+            <Statistic text="ei yhtään palautetta annettu"/>
+        </div>
+    )
+    return (
+        <div>
+            <Header header="statistiikka"/>
+            <Statistic text="Hyvä: " stat={positive}/>
+            <Statistic text="Neutraali: " stat={neutral}/>
+            <Statistic text="Huono: " stat={negative}/>
+            <Statistic text="Keskiarvo: " stat={sum / all}/>
+            <Statistic text="Positiivisia: " stat={positive / all} text2="%"/>
         </div>
     )
 }
