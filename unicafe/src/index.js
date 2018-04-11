@@ -15,7 +15,7 @@ const Header = ({ header }) => {
 
 const Statistic = ({stat, text, text2 }) => {
     return (
-        <p>{text}{stat}{text2}</p>
+            <p>{text}{stat}{text2}</p>  
     )
 }
 const Statistics = ({sum, all, positive, neutral, negative}) => {
@@ -28,12 +28,33 @@ const Statistics = ({sum, all, positive, neutral, negative}) => {
     )
     return (
         <div>
-            <Header header="statistiikka"/>
-            <Statistic text="Hyvä: " stat={positive}/>
-            <Statistic text="Neutraali: " stat={neutral}/>
-            <Statistic text="Huono: " stat={negative}/>
-            <Statistic text="Keskiarvo: " stat={sum / all}/>
-            <Statistic text="Positiivisia: " stat={positive / all} text2="%"/>
+            <Header header="statistiikka" />
+            <table>
+                <tbody>
+                    <tr>
+                        <td><Statistic text="Hyvä: "/></td>
+                        <td><Statistic stat={positive} /></td>
+                    </tr>
+                    <tr>
+                        <td><Statistic text="Neutraali: "/></td>
+                        <td><Statistic stat={neutral} /></td>
+                    </tr>
+                    <tr>
+                        <td><Statistic text="Huono: "/></td>
+                        <td><Statistic stat={negative} /></td>
+                    </tr>
+                    <tr>
+                        <td><Statistic text="Keskiarvo: "/></td>
+                        <td><Statistic stat={sum / all} /></td>
+                    </tr>
+                    <tr>
+                        <td><Statistic text="Positiivisia: "/></td>
+                        <td><Statistic stat={positive / all} text2="%" /></td>
+                    </tr>
+                    
+                    
+                </tbody>
+            </table>
         </div>
     )
 }
