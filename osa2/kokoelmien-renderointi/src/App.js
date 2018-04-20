@@ -1,21 +1,34 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import ReactDOM from 'react-dom'
+import Kurssi from './components/Kurssi'
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
-    );
+const App = () => {
+  const kurssi = {
+    nimi: 'Half Stack -sovelluskehitys',
+    osat: [
+      {
+        nimi: 'Reactin perusteet',
+        tehtavia: 10,
+        id: 1
+      },
+      {
+        nimi: 'Tiedonvälitys propseilla',
+        tehtavia: 7,
+        id: 2
+      },
+      {
+        nimi: 'Komponenttien tila',
+        tehtavia: 14,
+        id: 3
+      }
+    ]
   }
+
+  return (
+    <div>
+      <Kurssi kurssi={kurssi} />
+    </div>
+  )
 }
 
 export default App;
