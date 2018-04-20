@@ -21,11 +21,20 @@ const Sisalto = ({osat}) => {
     )
 }
 
+const Yhteensa =({osat}) => {
+    const tehtavat = osat.map(item => item.tehtavia)
+    const reducer = (accumulator, currentVal) => accumulator + currentVal; 
+    return (
+        <p>Yhteensä {tehtavat.reduce(reducer)} tehtävää</p>
+    )
+}
+
 const Kurssi = ({kurssi}) => {
     return (
         <div>
             <Otsikko otsikko={kurssi.nimi} />
             <Sisalto osat={kurssi.osat} />
+            <Yhteensa osat={kurssi.osat} />
         </div>
     )
 }
