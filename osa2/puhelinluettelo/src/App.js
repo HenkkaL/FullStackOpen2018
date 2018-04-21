@@ -24,13 +24,17 @@ class App extends React.Component {
     super(props)
     this.state = {
       persons: [
-        { name: 'Arto Hellas',
-          number: 1234567 }
+        { name: 'Arto Hellas', number: '040-123456' },
+        { name: 'Martti Tienari', number: '040-123456' },
+        { name: 'Arto Järvinen', number: '040-123456' },
+        { name: 'Lea Kutvonen', number: '040-123456' }
       ],
       newName: '',
-      newNumber: ''
+      newNumber: '',
+      filter: ''
     }
   }
+
 
   addContact = (event) => {
     event.preventDefault()
@@ -55,19 +59,29 @@ class App extends React.Component {
   }
 
   handleNameChange = (event) => {
-    console.log(event.target.value);
     this.setState({ newName: event.target.value })    
   }
 
   handleNumberChange = (event) => {
-    console.log(event.target.value);
     this.setState({ newNumber: event.target.value })    
+  }
+
+  handleFilterChange = (event) => {
+    this.setState({ filter: event.target.value }) 
+    
   }
 
   render() {
     return (
       <div>
         <h2>Puhelinluettelo</h2>
+        <div>
+            rajaa näytettäviä: <input
+             value={this.state.newFilter}
+             onChange={this.handleFilterChange}
+             />
+          </div>
+        <h2>Lisää uusi</h2>
         <form onSubmit={this.addContact}>
           <div>
             nimi: <input
@@ -86,7 +100,7 @@ class App extends React.Component {
           </div>
         </form>
         <h2>Numerot</h2>
-          <Contacts contacts={this.state.persons} />
+          <Contacts contacts={this.state.persons.filter(item => item.name.toLowerCase().includes(this.state.filter.toLowerCase()))} />
       </div>
     )
   }
