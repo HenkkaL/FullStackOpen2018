@@ -1,23 +1,7 @@
 import React from 'react';
-
-const Contact = ({contact}) => {
-  return (
-    <tr>
-    <td>{contact.name}</td>
-    <td>{contact.number}</td>
-    </tr>
-  )
-}
-
-const Contacts = ({contacts}) => {
-  return (
-    <table>
-      <tbody>
-        {contacts.map(item => <Contact key={item.name} contact={item} />)}
-      </tbody>
-    </table>
-  )
-}
+import AddContact from './components/AddContact'
+import Filter from './components/Filter'
+import ContactList from './components/ContactList';
 
 class App extends React.Component {
   constructor(props) {
@@ -53,7 +37,8 @@ class App extends React.Component {
   
       this.setState({
         persons,
-        newName:''
+        newName:'',
+        newNumber: ''
       })
     }
   }
@@ -73,34 +58,21 @@ class App extends React.Component {
 
   render() {
     return (
-      <div>
-        <h2>Puhelinluettelo</h2>
-        <div>
-            rajaa näytettäviä: <input
-             value={this.state.newFilter}
-             onChange={this.handleFilterChange}
-             />
-          </div>
-        <h2>Lisää uusi</h2>
-        <form onSubmit={this.addContact}>
-          <div>
-            nimi: <input
-             value={this.state.newName}
-             onChange={this.handleNameChange}
-             />
-          </div>
-          <div>
-            numero: <input
-             value={this.state.newNumber}
-             onChange={this.handleNumberChange}
-             />
-          </div>
-          <div>
-            <button type="submit">lisää</button>
-          </div>
-        </form>
-        <h2>Numerot</h2>
-          <Contacts contacts={this.state.persons.filter(item => item.name.toLowerCase().includes(this.state.filter.toLowerCase()))} />
+      <div>        
+          <Filter 
+            filter={this.state.newFilter} 
+            filterChange={this.handleFilterChange}
+          />
+          <AddContact 
+            onSubmit={this.addContact}
+            name={this.state.newName}
+            handleName={this.handleNameChange}
+            number={this.state.newNumber}
+            handleNumber={this.handleNumberChange}
+          />
+          <ContactList 
+            contacts={this.state.persons.filter(item => item.name.toLowerCase().includes(this.state.filter.toLowerCase()))}
+          />
       </div>
     )
   }
