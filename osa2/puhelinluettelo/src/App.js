@@ -2,15 +2,20 @@ import React from 'react';
 
 const Contact = ({contact}) => {
   return (
-    <li>{contact.name}</li>
+    <tr>
+    <td>{contact.name}</td>
+    <td>{contact.number}</td>
+    </tr>
   )
 }
 
 const Contacts = ({contacts}) => {
   return (
-    <ul>
-      {contacts.map(item => <Contact key={item.name} contact={item} />)}
-    </ul>
+    <table>
+      <tbody>
+        {contacts.map(item => <Contact key={item.name} contact={item} />)}
+      </tbody>
+    </table>
   )
 }
 
@@ -19,9 +24,11 @@ class App extends React.Component {
     super(props)
     this.state = {
       persons: [
-        { name: 'Arto Hellas' }
+        { name: 'Arto Hellas',
+          number: 1234567 }
       ],
-      newName: ''
+      newName: '',
+      newNumber: ''
     }
   }
 
@@ -34,7 +41,8 @@ class App extends React.Component {
       alert("nimi olemassa")
     } else {
       const contact = {
-        name: this.state.newName
+        name: this.state.newName,
+        number: this.state.newNumber
       }   
   
       const persons = this.state.persons.concat(contact)
@@ -51,6 +59,11 @@ class App extends React.Component {
     this.setState({ newName: event.target.value })    
   }
 
+  handleNumberChange = (event) => {
+    console.log(event.target.value);
+    this.setState({ newNumber: event.target.value })    
+  }
+
   render() {
     return (
       <div>
@@ -60,6 +73,12 @@ class App extends React.Component {
             nimi: <input
              value={this.state.newName}
              onChange={this.handleNameChange}
+             />
+          </div>
+          <div>
+            numero: <input
+             value={this.state.newNumber}
+             onChange={this.handleNumberChange}
              />
           </div>
           <div>
