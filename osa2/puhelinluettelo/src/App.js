@@ -27,22 +27,28 @@ class App extends React.Component {
 
   addContact = (event) => {
     event.preventDefault()
-    const contact = {
-      name: this.state.newName
-    }   
-
-    const persons = this.state.persons.concat(contact)
-
-    this.setState({
-      persons,
-      newName:''
-    })
+    const exists = this.state.persons.filter(item => item.name === this.state.newName).length > 0
+    console.log(exists);
+    
+    if (exists) {
+      alert("nimi olemassa")
+    } else {
+      const contact = {
+        name: this.state.newName
+      }   
+  
+      const persons = this.state.persons.concat(contact)
+  
+      this.setState({
+        persons,
+        newName:''
+      })
+    }
   }
 
   handleNameChange = (event) => {
     console.log(event.target.value);
-    this.setState({ newName: event.target.value })
-    
+    this.setState({ newName: event.target.value })    
   }
 
   render() {
