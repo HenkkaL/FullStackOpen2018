@@ -1,9 +1,15 @@
 import React from 'react';
 import axios from 'axios';
 
-const Country = ({country}) => {
+
+const CountryDetail = ({country}) => {
   return(
-    <li>{country}</li>
+    <div>
+    <h1>{country.name} {country.altSpellings[1]}</h1>
+    <p>capital: {country.capital}</p>
+    <p>population: {country.population}</p>
+    <img src={country.flag} alt="country flag"/>
+  </div>
   )
 }
 
@@ -14,17 +20,12 @@ const CountryList = ({countries}) => {
   )
   if (countries.length === 1)
     return (
-      <div>
-        <h1>{countries[0].name} {countries[0].altSpellings[1]}</h1>
-        <p>capital: {countries[0].capital}</p>
-        <p>population: {countries[0].population}</p>
-        <img src={countries[0].flag} alt="country flag"/>
-      </div>
+      <CountryDetail country={countries[0]} />
   )
   return(
-    <ul>
-    {countries.map(item =><Country key={item.numericCode} country={item.name} />)}
-  </ul>
+    <div>
+    {countries.map(item =><div key={item.numericCode} onClick={item.event}>{item.name} </div>)}
+  </div>
   )
 }
 
@@ -42,25 +43,31 @@ class App extends React.Component {
     axios
       .get('https://restcountries.eu/rest/v2/all')
       .then(responce => {
-        console.log(responce.data)
         this.setState({ countries: responce.data })
       })
   }
 
   handleCountryChange = (event) => {
     this.setState({ country: event.target.value })
+    console.log(this.state.countries)
+  }
+ 
+  eventHandler = (param) => {
+    return () => {
+      this.setState({ country: param.name })
+    }    
   }
 
-
-
-  render() {
+  render() {   
+    const countries= this.state.countries.filter(item => item.name.toLowerCase().includes(this.state.country.toLowerCase()))
+    countries.map(item => item.event = this.eventHandler(item))
     return (
       <div>
         find Countries: 
         <input value={this.state.country}
         onChange={this.handleCountryChange}/>
-        <CountryList
-          countries={this.state.countries.filter(item => item.name.toLowerCase().includes(this.state.country.toLowerCase()))}
+        <CountryList          
+          countries={countries}
         />
       </div>
     )
