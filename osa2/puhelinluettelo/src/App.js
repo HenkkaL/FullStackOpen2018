@@ -44,9 +44,22 @@ class App extends React.Component {
           newName:'',
           newNumber: ''
         })
-      })
-  
-      
+      })     
+    }
+  }
+
+  deleteItem = (id) => {
+    return () => {
+      if (window.confirm("haluatko poistaa numeron"))
+        contactService
+          .deleteContact(id)
+          .then(responce => {
+            if (responce.status === 200) {
+              this.setState({
+                persons: this.state.persons.filter(item => item.id !== id)
+              })
+            }
+          })
     }
   }
 
@@ -59,8 +72,7 @@ class App extends React.Component {
   }
 
   handleFilterChange = (event) => {
-    this.setState({ filter: event.target.value }) 
-    
+    this.setState({ filter: event.target.value })     
   }
 
   render() {
@@ -79,6 +91,7 @@ class App extends React.Component {
           />
           <ContactList 
             contacts={this.state.persons.filter(item => item.name.toLowerCase().includes(this.state.filter.toLowerCase()))}
+            deleteItem={this.deleteItem}
           />
       </div>
     )
