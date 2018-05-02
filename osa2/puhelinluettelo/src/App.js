@@ -2,7 +2,7 @@ import React from 'react';
 import AddContact from './components/AddContact'
 import Filter from './components/Filter'
 import ContactList from './components/ContactList'
-import axios from 'axios'
+import contactService from './services/contacts'
 
 class App extends React.Component {
   constructor(props) {
@@ -15,11 +15,11 @@ class App extends React.Component {
     }
   }
 
-  componentWillMount() {
-    axios
-      .get('http://localhost:3001/persons')
-      .then(responce => {
-        this.setState({persons: responce.data })
+  componentDidMount() {
+    contactService
+      .getAll()
+      .then(persons => {
+        this.setState({ persons })
       })
   }
 
@@ -36,10 +36,11 @@ class App extends React.Component {
         number: this.state.newNumber
       }   
   
-      axios.post('http://localhost:3001/persons', contact)
+      contactService
+      .create(contact)
       .then(responce => {
         this.setState({
-          persons: this.state.persons.concat(responce.data),
+          persons: this.state.persons.concat(responce),
           newName:'',
           newNumber: ''
         })
