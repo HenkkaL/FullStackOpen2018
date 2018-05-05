@@ -30,9 +30,9 @@ class App extends React.Component {
     
     if (exists) {
       if (window.confirm(`${exists.name} on jo luettelossa, korvataanko vanha numero uudella?`)) {
-        exists.number = this.state.newNumber
+        const update = { ...exists, number: this.state.newNumber }
         contactService
-        .update(exists)
+        .update(update)
         .then(responce => {
           this.setState({
             persons: this.state.persons.map(item => item.id !== responce.id ? item : responce)
