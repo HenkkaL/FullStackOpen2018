@@ -25,11 +25,22 @@ class App extends React.Component {
 
   addContact = (event) => {
     event.preventDefault()
-    const exists = this.state.persons.filter(item => item.name === this.state.newName).length > 0
+    const exists = this.state.persons.filter(item => item.name === this.state.newName)
     console.log(exists);
     
-    if (exists) {
-      alert("nimi olemassa")
+    if (exists.length > 0) {
+      if (window.confirm(`${exists[0].name} on jo luettelossa, korvataanko vanha numero uudella?`)) {
+        exists[0].number = this.state.newNumber
+        contactService
+        .update(exists[0])
+        .then(responce => {
+          const newState = this.state.persons
+          newState[this.state.persons.findIndex((item) => item.id === responce.id )] = responce
+          this.setState({
+            persons: newState
+          })
+        })
+      }
     } else {
       const contact = {
         name: this.state.newName,
