@@ -43,28 +43,42 @@ class App extends React.Component {
         .update(update)
         .then(responce => {
           this.setState({
-            persons: this.state.persons.map(item => item.id !== responce.id ? item : responce)
+            persons: this.state.persons.map(item => item.id !== responce.id ? item : responce),
+            newName:'',
+            newNumber: ''
           })      
           this.alertSuccess(`Päivitettiin ${update.name} tietoja`)    
-        })        
+        }) 
+        .catch( error => {
+          this.setState({
+            persons: this.state.persons.filter(item => item.id !== exists.id)
+          })
+          this.addNewContact()
+          this.alertSuccess(`Päivitettiin (lisättiin) ${update.name} tietoja`)
+        })       
       }
     } else {
-      const contact = {
-        name: this.state.newName,
-        number: this.state.newNumber
-      }   
-  
-      contactService
-      .create(contact)
-      .then(responce => {
-        this.setState({
-          persons: this.state.persons.concat(responce),
-          newName:'',
-          newNumber: ''
-        })
-        this.alertSuccess(`Lisättiin ${responce.name}`) 
-      })     
+      
+      this.alertSuccess(`Lisättiin ${this.addNewContact()}`) 
     }
+  }
+
+  addNewContact = () => {
+    const contact = {
+      name: this.state.newName,
+      number: this.state.newNumber
+    }   
+
+    contactService
+    .create(contact)
+    .then(responce => {
+      this.setState({
+        persons: this.state.persons.concat(responce),
+        newName:'',
+        newNumber: ''
+      })          
+    }) 
+    return contact.name
   }
 
   deleteItem = (contact) => {    
