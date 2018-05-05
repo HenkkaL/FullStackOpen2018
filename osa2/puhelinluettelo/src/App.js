@@ -34,10 +34,8 @@ class App extends React.Component {
         contactService
         .update(exists[0])
         .then(responce => {
-          const newState = this.state.persons
-          newState[this.state.persons.findIndex((item) => item.id === responce.id )] = responce
           this.setState({
-            persons: newState
+            persons: this.state.persons.map(item => item.id !== responce.id ? item : responce)
           })
         })
       }
