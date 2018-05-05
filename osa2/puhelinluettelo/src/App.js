@@ -25,14 +25,14 @@ class App extends React.Component {
 
   addContact = (event) => {
     event.preventDefault()
-    const exists = this.state.persons.filter(item => item.name === this.state.newName)
+    const exists = this.state.persons.find(item => item.name === this.state.newName)
     console.log(exists);
     
-    if (exists.length > 0) {
-      if (window.confirm(`${exists[0].name} on jo luettelossa, korvataanko vanha numero uudella?`)) {
-        exists[0].number = this.state.newNumber
+    if (exists) {
+      if (window.confirm(`${exists.name} on jo luettelossa, korvataanko vanha numero uudella?`)) {
+        exists.number = this.state.newNumber
         contactService
-        .update(exists[0])
+        .update(exists)
         .then(responce => {
           this.setState({
             persons: this.state.persons.map(item => item.id !== responce.id ? item : responce)
