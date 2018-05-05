@@ -14,7 +14,7 @@ const Contact = ({contact, deleteItem}) => {
     return (
       <table>
         <tbody>
-          {contacts.map(item => <Contact key={item.name} contact={item} deleteItem={deleteItem(item.id)} />)}
+          {contacts.map(item => <Contact key={item.name} contact={item} deleteItem={deleteItem(item)} />)}
         </tbody>
       </table>
     )

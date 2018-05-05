@@ -3,6 +3,7 @@ import AddContact from './components/AddContact'
 import Filter from './components/Filter'
 import ContactList from './components/ContactList'
 import contactService from './services/contacts'
+import SuccessAlert from './components/SuccessAlert'
 
 class App extends React.Component {
   constructor(props) {
@@ -11,7 +12,8 @@ class App extends React.Component {
       persons: [],
       newName: '',
       newNumber: '',
-      filter: ''
+      filter: '',
+      success: null
     }
   }
 
@@ -23,10 +25,16 @@ class App extends React.Component {
       })
   }
 
+  alertSuccess = (message) => {
+    this.setState({success: message})
+    setTimeout(() => {
+      this.setState({success: null})
+    }, 5000)
+  }
+
   addContact = (event) => {
     event.preventDefault()
     const exists = this.state.persons.find(item => item.name === this.state.newName)
-    console.log(exists);
     
     if (exists) {
       if (window.confirm(`${exists.name} on jo luettelossa, korvataanko vanha numero uudella?`)) {
@@ -36,8 +44,9 @@ class App extends React.Component {
         .then(responce => {
           this.setState({
             persons: this.state.persons.map(item => item.id !== responce.id ? item : responce)
-          })
-        })
+          })      
+          this.alertSuccess(`Päivitettiin ${update.name} tietoja`)    
+        })        
       }
     } else {
       const contact = {
@@ -53,20 +62,23 @@ class App extends React.Component {
           newName:'',
           newNumber: ''
         })
+        this.alertSuccess(`Lisättiin ${responce.name}`) 
       })     
     }
   }
 
-  deleteItem = (id) => {
+  deleteItem = (contact) => {    
     return () => {
+      console.log(contact)
       if (window.confirm("haluatko poistaa numeron"))
         contactService
-          .deleteContact(id)
+          .deleteContact(contact.id)
           .then(responce => {
             if (responce.status === 200) {
               this.setState({
-                persons: this.state.persons.filter(item => item.id !== id)
+                persons: this.state.persons.filter(item => item.id !== contact.id)
               })
+              this.alertSuccess(`Poistettiin ${contact.name}`) 
             }
           })
     }
@@ -86,7 +98,10 @@ class App extends React.Component {
 
   render() {
     return (
-      <div>        
+      <div>       
+          <SuccessAlert
+            message={this.state.success}
+          />
           <Filter 
             filter={this.state.newFilter} 
             filterChange={this.handleFilterChange}
