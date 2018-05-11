@@ -88,7 +88,7 @@ class App extends React.Component {
         contactService
           .deleteContact(contact.id)
           .then(responce => {
-            if (responce.status === 200) {
+            if (responce.status === 204) {
               this.setState({
                 persons: this.state.persons.filter(item => item.id !== contact.id)
               })
